@@ -1,6 +1,6 @@
 {
   "name": "arthurhoaro/simple-php-messaging-service",
-  "description": "SimplePMS is a PHP message service with database backend using sqlite, mysql or postgresql",
+  "description": "SimplePMS is a PHP message service with database backend using SQLite, PostgreSQL or MySQL",
   "keywords": [
     "queue",
     "worker",

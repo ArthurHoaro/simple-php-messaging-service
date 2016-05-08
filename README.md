@@ -1,6 +1,8 @@
 Simple PHP Messaging Service
 ============================
 
+[![Build Status](https://travis-ci.org/ArthurHoaro/simple-php-messaging-service.svg?branch=master)](https://travis-ci.org/ArthurHoaro/simple-php-messaging-service)
+
 SimplePMS is a very simple messaging service component with a database backend.
 
 It allows applications to communicate without a heavy traditional client-server architecture.
@@ -40,7 +42,7 @@ Install with Composer
 ```json
 {
     "require": {
-        "arthurhoaro/simple-php-messaging-service": "0.3"
+        "arthurhoaro/simple-php-messaging-service": "~1.0"
     }
 }
 ```
