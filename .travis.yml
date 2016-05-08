@@ -1,0 +1,22 @@
+language: php
+
+services:
+  - mysql
+  - postgresql
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+before_script:
+  - composer self-update
+  - composer install --no-interaction --prefer-source --dev
+  - psql -c 'create database spms;' -U postgres
+  - mysql -e 'create database spms;'
+
+script:
+  - ./vendor/bin/phpunit --bootstrap ./tests/bootstrap.sqlite.php
+  - ./vendor/bin/phpunit --bootstrap ./tests/bootstrap.mysql.php
+  - ./vendor/bin/phpunit --bootstrap ./tests/bootstrap.pgsql.php

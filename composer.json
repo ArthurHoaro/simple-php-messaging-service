@@ -1,0 +1,38 @@
+{
+  "name": "arthurhoaro/simple-php-messaging-service",
+  "description": "SimplePMS is a PHP message service with database backend using sqlite, mysql or postgresql",
+  "keywords": [
+    "queue",
+    "worker",
+    "manager",
+    "batch",
+    "jms",
+    "messaging",
+    "asynchronous"
+  ],
+  "homepage": "http://github.com/ArthurHoaro/simple-php-messaging-service",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Arthur Hoaro",
+      "homepage": "http://hoa.ro"
+    },
+    {
+      "name": "Andrius Putna"
+    }
+  ],
+  "license": "MIT",
+  "version": "1.0",
+  "require": {
+    "php": ">=5.5.0",
+    "ext-PDO": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimplePMS\\": "./src"
+    }
+  }
+}
