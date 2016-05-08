@@ -19,3 +19,8 @@ script:
   - ./vendor/bin/phpunit --bootstrap ./tests/bootstrap.sqlite.php
   - ./vendor/bin/phpunit --bootstrap ./tests/bootstrap.mysql.php
   - ./vendor/bin/phpunit --bootstrap ./tests/bootstrap.pgsql.php
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
