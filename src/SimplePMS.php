@@ -198,13 +198,14 @@ class SimplePMS
             throw new \InvalidArgumentException('$queueName is not a string');
         }
 
-        $quid = $this->getQueueId($queueName);
-        if(! $quid) {
-            $quid = $this->createQueue($queueName);
+        $sql = 'SELECT * FROM ' . self::TABLE_QUEUE . ' WHERE name = :name';
+        $stmt = $this->getDb()->prepare($sql);
+        $stmt->bindValue(':name', $queueName);
+        $stmt->execute();
+        if (!empty($queue = $stmt->fetch(\PDO::FETCH_ASSOC))) {
+            return new Queue($queue['id_queue'], $queue['name'], $queue['created']);
         }
-
-        $q = new Queue($quid, $queueName);
-        return $q;
+        return $this->createQueue($queueName);
     }
 
     /**
@@ -228,10 +229,11 @@ class SimplePMS
      *
      * @param string $queueName The name of the queue to create.
      *
-     * @return int|bool New queue ID or false if an error occurred.
+     * @return Queue The Queue created.
      */
     protected function createQueue($queueName)
     {
+        $microtime = self::microtime();
         $sql = 'INSERT INTO ' . self::TABLE_QUEUE . '
             (name, created)
             VALUES
@@ -239,11 +241,11 @@ class SimplePMS
             ';
         $stmt = $this->getDb()->prepare($sql);
         $stmt->bindValue(':queue_name', $queueName);
-        $stmt->bindValue(':created', self::microtime());
+        $stmt->bindValue(':created', $microtime);
         if ($stmt->execute()) {
             $id = $this->getDb()->lastInsertId(self::TABLE_QUEUE . '_id_queue_seq');
             SimplePMSLogger::log($this->getDb(), SimplePMSAction::NEW_QUEUE, [$queueName]);
-            return $id;
+            return new Queue($id, $queueName, $microtime);
         }
         return false;
     }
@@ -339,7 +341,7 @@ class SimplePMS
      */
     public function getMessage($messageId)
     {
-        $sql = 'SELECT m.*, q.id_queue as qid, q.name as qname 
+        $sql = 'SELECT m.*, q.id_queue as qid, q.name as qname, q.created as qcreated
                 FROM '. self::TABLE_MESSAGE .' m, '. self::TABLE_QUEUE.' q  
                 WHERE id_message = :id AND q.id_queue = m.id_queue';
         $stmt = $this->getDb()->prepare($sql);
@@ -347,7 +349,7 @@ class SimplePMS
         $stmt->execute();
         $message = $stmt->fetch(\PDO::FETCH_ASSOC);
         if (!empty($message)) {
-            $queue = new Queue($message['qid'], $message['qname']);
+            $queue = new Queue($message['qid'], $message['qname'], $message['qcreated']);
             return new Message($queue, $message);
         }
         return false;
@@ -366,8 +368,9 @@ class SimplePMS
         $stmt = $this->getDb()->prepare($sql);
         $stmt->execute();
         $queues = [];
+        $i = 0;
         foreach ($stmt->fetchAll() as $queue) {
-            $queues[] = new Queue($queue['id_queue'], $queue['name']);
+            $queues[] = new Queue($queue['id_queue'], $queue['name'], $queue['created']);
         }
         return $queues;
     }
@@ -417,6 +420,6 @@ class SimplePMS
      */
     public static function microtime()
     {
-        return (int) (microtime() * 10000);
+        return (int) (microtime(true) * 10000);
     }
 }

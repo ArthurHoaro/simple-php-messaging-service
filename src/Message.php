@@ -32,17 +32,17 @@ class Message
     protected $checksum;
 
     /**
-     * @var integer Timestamp indicating when the message has been handled.
+     * @var int Micro-timestamp indicating when the message has been handled.
      */
     protected $handled;
 
     /**
-     * @var integer Number of seconds before a message is considered stuck after being handled.
+     * @var int Number of microseconds before a message is considered stuck after being handled.
      */
     protected $timeout;
 
     /**
-     * @var integer Timestamp indicating message creation.
+     * @var int Micro-timestamp indicating message creation.
      */
     protected $created;
 

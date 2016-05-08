@@ -25,15 +25,24 @@ class Queue
     protected $name;
 
     /**
+     * @var int Micro-timestamp indicating queue creation date.
+     */
+    protected $created;
+    
+    /**
      * Queue constructor.
      *
-     * @param int    $id   Queue ID.
-     * @param string $name Queue name.
+     * @param int    $id      Queue ID.
+     * @param string $name    Queue name.
+     * @param int    $created Queue creation date (microtime as integer).
      */
-    public function __construct($id, $name = self::DEFAULT_QUEUE)
+    public function __construct($id, $name = self::DEFAULT_QUEUE, $created = null)
     {
         $this->id = $id;
         $this->name = $name;
+        if ($created) {
+            $this->created = $created;
+        }
     }
 
     /**
@@ -54,6 +63,22 @@ class Queue
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param int $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
     }
 
     /**

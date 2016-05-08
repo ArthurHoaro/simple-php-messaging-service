@@ -2,6 +2,7 @@ Simple PHP Messaging Service
 ============================
 
 [![Build Status](https://travis-ci.org/ArthurHoaro/simple-php-messaging-service.svg?branch=master)](https://travis-ci.org/ArthurHoaro/simple-php-messaging-service)
+[![Coverage Status](https://coveralls.io/repos/github/ArthurHoaro/simple-php-messaging-service/badge.svg?branch=master)](https://coveralls.io/github/ArthurHoaro/simple-php-messaging-service?branch=master)
 
 SimplePMS is a very simple messaging service component with a database backend.
 
