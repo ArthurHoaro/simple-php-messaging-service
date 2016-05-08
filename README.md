@@ -43,7 +43,7 @@ Install with Composer
 ```json
 {
     "require": {
-        "arthurhoaro/simple-php-messaging-service": "~1.0"
+        "arthurhoaro/simple-php-messaging-service": "dev-master"
     }
 }
 ```
